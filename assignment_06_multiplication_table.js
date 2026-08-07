@@ -55,5 +55,55 @@
 // - Complete Part A before attempting Part B.
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
+const readlineSync = require('readline-sync');
 
+// -----------------------------------------------------------------------------
+// printTable: prints the multiplication table for a single number (1 to 12)
+// -----------------------------------------------------------------------------
+function printTable(num) {
+    console.log(`Multiplication Table for ${num}:`);
+    for (let i = 1; i <= 12; i++) {
+        const product = num * i;
+        console.log(`${num}  x  ${i.toString().padEnd(2)}  =  ${product}`);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// printTablesUpTo: prints multiplication tables for every number from 1 to n,
+//                  separated by a line of dashes
+// -----------------------------------------------------------------------------
+function printTablesUpTo(n) {
+    for (let num = 1; num <= n; num++) {
+        printTable(num);
+        console.log("---------------------------");
+    }
+}
+
+// -----------------------------------------------------------------------------
+// main: gets user input and calls both parts
+// -----------------------------------------------------------------------------
+function main() {
+    // ----- Part A -----
+    const number = readlineSync.questionInt("Enter a number: ");
+
+    if (!Number.isInteger(number) || number <= 0) {
+        console.log("Error: Please enter a positive integer.");
+        return;
+    }
+
+    printTable(number);
+
+    console.log("\n--- Bonus: Tables from 1 to N ---\n");
+
+    // ----- Part B -----
+    const n = readlineSync.questionInt("Enter N: ");
+
+    if (!Number.isInteger(n) || n <= 0) {
+        console.log("Error: N must be a positive integer.");
+        return;
+    }
+
+    printTablesUpTo(n);
+}
+
+main();

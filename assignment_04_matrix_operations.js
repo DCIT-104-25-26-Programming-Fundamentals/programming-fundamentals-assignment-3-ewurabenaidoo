@@ -70,3 +70,127 @@
 
 const readlineSync = require('readline-sync');
 
+function readMatrix(promptMessage) {
+    console.log(promptMessage);
+    let rows = parseInt(readlineSync.question('Enter number of rows: '), 10);
+    let cols = parseInt(readlineSync.question('Enter number of columns: '), 10);
+    let matrix = [];
+
+    for (let i = 0; i < rows; i++) {
+        let rowInput = readlineSync.question(`Enter row ${i + 1}: `);
+        let row = rowInput.split(' ').map(Number);
+        matrix.push(row);
+    }
+
+    return matrix;
+}
+
+function displayMatrix(matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+        let rowStr = '';
+        for (let j = 0; j < matrix[i].length; j++) {
+            rowStr += matrix[i][j] + '\t';
+        }
+        console.log(rowStr);
+    }
+}
+
+function transposeMatrix() {
+    console.log('\n--- PART A: Transpose a Matrix ---');
+    let matrix = readMatrix('Enter the matrix to transpose:');
+    let rows = matrix.length;
+    let cols = matrix[0].length;
+    let transposed = [];
+
+    for (let j = 0; j < cols; j++) {
+        let newRow = [];
+        for (let i = 0; i < rows; i++) {
+            newRow.push(matrix[i][j]);
+        }
+        transposed.push(newRow);
+    }
+
+    console.log('\nOriginal Matrix:');
+    displayMatrix(matrix);
+    console.log('\nTransposed Matrix:');
+    displayMatrix(transposed);
+}
+
+function addMatrices() {
+    console.log('\n--- PART B: Add Two Matrices ---');
+    console.log('Enter Matrix A:');
+    let matrixA = readMatrix('');
+    console.log('Enter Matrix B (must be same dimensions):');
+    let matrixB = readMatrix('');
+
+    let rows = matrixA.length;
+    let cols = matrixA[0].length;
+
+    if (rows !== matrixB.length || cols !== matrixB[0].length) {
+        console.log('Error: Matrices must have the exact same dimensions for addition.');
+        return;
+    }
+
+    let result = [];
+    for (let i = 0; i < rows; i++) {
+        let newRow = [];
+        for (let j = 0; j < cols; j++) {
+            newRow.push(matrixA[i][j] + matrixB[i][j]);
+        }
+        result.push(newRow);
+    }
+
+    console.log('\nMatrix A:');
+    displayMatrix(matrixA);
+    console.log('\nMatrix B:');
+    displayMatrix(matrixB);
+    console.log('\nSum Matrix (A + B):');
+    displayMatrix(result);
+}
+
+function multiplyMatrices() {
+    console.log('\n--- PART C: Multiply Two Matrices ---');
+    console.log('Enter Matrix A:');
+    let matrixA = readMatrix('');
+    console.log('Enter Matrix B:');
+    let matrixB = readMatrix('');
+
+    let rowsA = matrixA.length;
+    let colsA = matrixA[0].length;
+    let rowsB = matrixB.length;
+    let colsB = matrixB[0].length;
+
+    if (colsA !== rowsB) {
+        console.log('Error: Number of columns in Matrix A must equal number of rows in Matrix B.');
+        return;
+    }
+
+    let result = [];
+    for (let i = 0; i < rowsA; i++) {
+        let newRow = [];
+        for (let j = 0; j < colsB; j++) {
+            let sum = 0;
+            for (let k = 0; k < colsA; k++) {
+                sum += matrixA[i][k] * matrixB[k][j];
+            }
+            newRow.push(sum);
+        }
+        result.push(newRow);
+    }
+
+    console.log('\nMatrix A:');
+    displayMatrix(matrixA);
+    console.log('\nMatrix B:');
+    displayMatrix(matrixB);
+    console.log('\nProduct Matrix (A x B):');
+    displayMatrix(result);
+}
+
+function main() {
+    transposeMatrix();
+    addMatrices();
+    multiplyMatrices();
+}
+
+main();
+
